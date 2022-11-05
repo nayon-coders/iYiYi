@@ -7,6 +7,8 @@ import 'package:untitled/app_config.dart';
 import 'package:untitled/view/home.dart';
 import 'package:untitled/view/login.dart';
 
+import '../utilits.dart';
+
 class FlashScreen extends StatefulWidget {
   const FlashScreen({Key? key}) : super(key: key);
 
@@ -94,14 +96,14 @@ class _FlashScreenState extends State<FlashScreen> {
                   style: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.w300,
-                    color: AppConfig.black
+                    color: AppUtilits.black
                   ),
                   children: const <TextSpan>[
                     TextSpan(text: 'iYYi',
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
-                          color: AppConfig.gold,
+                          color: AppUtilits.gold,
                         ),
                     ),
                   ],
@@ -112,7 +114,7 @@ class _FlashScreenState extends State<FlashScreen> {
               ),
               SizedBox(height: 20,),
               SpinKitThreeInOut(
-                color: AppConfig.gold,
+                color: AppUtilits.gold,
                 size: 40.0,
               ),
             ],

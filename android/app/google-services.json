@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "48337590675",
+    "project_id": "iyyi-c8bb0",
+    "storage_bucket": "iyyi-c8bb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:48337590675:android:cc215ab6b0f2cb5b0ff066",
+        "android_client_info": {
+          "package_name": "com.iyyi.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "48337590675-b82a2jv8v10l0qm4rgk0ea88jnm5tul5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7nLkYFLXn2W52pquODhZ3CzyuuRzWGJA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "48337590675-b82a2jv8v10l0qm4rgk0ea88jnm5tul5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

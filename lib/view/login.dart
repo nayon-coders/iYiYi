@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:untitled/app_config.dart';
 import 'package:untitled/controller/auth_controller.dart';
 import 'package:untitled/view/signup.dart';
+
+import '../utilits.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -12,6 +15,10 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  AuthController authController = Get.put(AuthController());
+
+
   final _loginKey = GlobalKey<FormState>();
   late bool password;
 
@@ -115,7 +122,7 @@ class _LoginState extends State<Login> {
                   InkWell(
                     onTap: (){
                       if(_loginKey.currentState!.validate()){
-                        controller.login();
+                        controller.login(email: controller.email.text, pass: controller.pass.text);
                       }
                     },
                     child: Container(
@@ -123,11 +130,14 @@ class _LoginState extends State<Login> {
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: AppConfig.gold
+                        color: AppUtilits.gold
                       ),
                       child: Center(
-                        child: Text("Login",
-                          style: TextStyle(fontSize: 17,fontWeight: FontWeight.w400, color: AppConfig.white),
+                        child: controller.isLoading.value ? SpinKitThreeInOut(
+                          color: AppUtilits.white,
+                          size: 40.0,
+                        ):Text("Login",
+                          style: TextStyle(fontSize: 17,fontWeight: FontWeight.w400, color: AppUtilits.white),
                         ),
                       ),
                     ),

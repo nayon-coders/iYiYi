@@ -39,7 +39,6 @@ class AuthController extends GetxController{
     isLoadingMethod(true);
     SharedPreferences _prfs = await SharedPreferences.getInstance();
 
-    print(email);
 
     //create
     try {
@@ -59,7 +58,7 @@ class AuthController extends GetxController{
         AppPopUp.showTost(title: jsonDecode(response.body)["message"]);
         print(_prfs.getString("token"));
         print(_prfs.getString("user_id"));
-        Get.to(Home(), transition: Transition.zoom);
+        Get.offAll(Home(), transition: Transition.zoom);
       }else{
         AppPopUp.showTost(title: jsonDecode(response.body)["message"]);      }
     } catch (e) {

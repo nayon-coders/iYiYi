@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:untitled/app_config.dart';
 import 'package:untitled/controller/profile_controller.dart';
 import 'package:untitled/utilits.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/singleuser_controller.dart';
 import '../controller/userlist_controller.dart';
@@ -110,22 +111,25 @@ class _SingleUserState extends State<SingleUser> {
                       checked: Icons.check_circle,
                       title: "Facebook",
                       isCheck: controller.userModel?.user?.image != null ? true : false,
+                      url: 'https://facebook.com/${controller.userModel?.user?.instagram}',
                     ):Center(),
                     SizedBox(height: 20,),
                     controller.userModel?.user?.instagram != null ? buildSocialContact(
-                      socialIcon: FontAwesomeIcons.facebook,
+                      socialIcon: FontAwesomeIcons.instagram,
                       checked: Icons.check_circle,
                       title: "Instagram",
                       isCheck: controller.userModel?.user?.instagram != null ? true : false,
+                      url: 'https://instagram.com/${controller.userModel?.user?.instagram}',
                     ):Center(),
                     SizedBox(height: 20,),
                     controller.userModel?.user?.twitter!= null ? buildSocialContact(
-                      socialIcon: FontAwesomeIcons.facebook,
+                      socialIcon: FontAwesomeIcons.twitter,
                       checked: Icons.check_circle,
                       title: "Twitter",
                       isCheck: controller.userModel?.user?.twitter != null ? true : false,
+                      url: 'https://twitter.com/${controller.userModel?.user?.twitter}',
                     ):Center(),
-                    controller.userModel?.user?.twitter== null && controller.userModel?.user?.facebook== null && controller.userModel?.user?.twitter== null
+                    controller.userModel?.user?.twitter== null && controller.userModel?.user?.facebook== null && controller.userModel?.user?.instagram== null
                         ? Center(
                       child: Text("Social contact not set this profile"),
                     ):Center(),
@@ -144,6 +148,7 @@ class _SingleUserState extends State<SingleUser> {
     required IconData checked,
     required String title,
     required bool isCheck,
+    required String url,
   }) {
     return Container(
       padding: EdgeInsets.all(10),
@@ -171,8 +176,10 @@ class _SingleUserState extends State<SingleUser> {
           ),
 
           isCheck ? TextButton(
-            onPressed: (){},
-            child: Text("Copy",
+            onPressed: ()async {
+              launch(url);
+            },
+            child: Text("Click",
               style: TextStyle(
                 color: Colors.redAccent
               ),
@@ -184,4 +191,6 @@ class _SingleUserState extends State<SingleUser> {
       ),
     );
   }
+
+
 }

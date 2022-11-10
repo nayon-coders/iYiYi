@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:untitled/app_config.dart';
 import 'package:untitled/controller/auth_controller.dart';
 import 'package:untitled/view/signup.dart';
 
@@ -108,15 +107,7 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10,),
 
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: (){},
-                      child: Text("Forget your password? "),
-                    ),
-                  ),
 
                   SizedBox(height: 20,),
                   InkWell(

@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:untitled/controller/singleuser_controller.dart';
 import 'package:untitled/controller/userlist_controller.dart';
 import 'package:untitled/utilits.dart';
 import 'dart:ui' as ui;
@@ -20,6 +22,7 @@ class UserMapList extends StatefulWidget {
 class _UserMapListState extends State<UserMapList> {
   Completer<GoogleMapController> _controller = Completer();
   UserListController userListController = Get.put(UserListController());
+  SingleUserController singleUserController = Get.put(SingleUserController());
 
 
   Future<Uint8List> getMarkeeIcon(String path, int width)async{
@@ -30,43 +33,63 @@ class _UserMapListState extends State<UserMapList> {
   }
   List<Marker> list = <Marker> [];
   List<Marker> marker = <Marker> [];
+  var userId, lat, long;
+  getUserid()async{
+    SharedPreferences _prfs = await SharedPreferences.getInstance();
+    userId = _prfs.getString("user_id");
+    lat = _prfs.getDouble("lat");
+    long = _prfs.getDouble("long");
+    print("user id is = $userId");
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
     load();
+    getUserid();
   }
-
-  List<LatLng> latLong = [
-    LatLng(23.724254, 90.438238), LatLng(23.728704, 90.441060), LatLng(23.728468, 90.439011), LatLng(23.728252, 90.439644)
-  ];
 
   Future load()async{
     print("object");
     final Uint8List markerIcon = await getMarkeeIcon("assets/images/flash_bg.png", 100);
 
     print("markerIcon $markerIcon");
-    for(var i = 0 ; i < latLong.length; i ++){
-      print("Mark id ${i}");
-      print("Total index ${latLong[i]}");
-      list.add(
-        Marker(
-            markerId: MarkerId("Mark id ${i}"),
-            position: latLong[i],
-            icon:  BitmapDescriptor.defaultMarker,
-            infoWindow: InfoWindow(
-                title: "${userListController.userListModel?.data?[i]?.name}",
-                snippet: "See Profile",
-                onTap: () => Get.to(SingleUser(id: "${userListController.userListModel?.data?[i]?.id}"))
-            )
-        ),
-      );
-      setState(() {
+    for(var i = 0 ; i < int.parse("${userListController.userListModel?.data?.length}"); i ++) {
+      print("Mark id ${userListController.userListModel?.data?.length}");
+      print("Mark id ${userListController.userListModel?.data?[i]?.name}");
 
-      });
 
+      if (userListController.userListModel?.data?[i]?.location?.latitude !=
+          null) {
+
+        list.add(
+          Marker(
+              markerId: MarkerId("Mark id ${i}"),
+              position: userListController.userListModel?.data?[i]?.location
+                  ?.latitude != null ? LatLng(double.parse(
+                  "${userListController.userListModel?.data?[i]?.location
+                      ?.latitude}"),
+                  double.parse(
+                      "${userListController.userListModel?.data?[i]?.location
+                          ?.longitude}")):LatLng(12.0, 10.0),
+
+
+              icon: BitmapDescriptor.defaultMarker,
+              infoWindow: InfoWindow(
+                  title: "${userListController.userListModel?.data?[i]?.name}",
+                  snippet: "See Profile",
+                  onTap: () =>
+                      Get.to(SingleUser(
+                          id: "${userListController.userListModel?.data?[i]
+                              ?.id}"))
+              )
+          ),
+        );
+        setState(() {
+
+        });
+      }
     }
 
   }
@@ -90,10 +113,10 @@ class _UserMapListState extends State<UserMapList> {
           color: Colors.black45,//change color on your need
         ),
       ),
-      body: GoogleMap(
+      body: lat != null ? GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: CameraPosition(
-          target: LatLng(23.728468, 90.439011),
+          target: LatLng(lat!, long!),
           zoom: 17.4746,
         ),
 
@@ -107,7 +130,7 @@ class _UserMapListState extends State<UserMapList> {
           Circle(
             circleId: CircleId("1"),
             radius: 150,
-            center: LatLng(23.728468, 90.439011),
+            center:  LatLng(lat!, long!),
             strokeColor: Colors.red,
             strokeWidth: 2, 
             fillColor: AppUtilits.gold.withOpacity(0.2)
@@ -117,6 +140,8 @@ class _UserMapListState extends State<UserMapList> {
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
+      ):Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

@@ -88,20 +88,20 @@ class _FlashScreenState extends State<FlashScreen> {
             children: [
               Image.asset("assets/images/flash_bg.png",),
 
-              SizedBox(height: 40,),
+              SizedBox(height: 100,),
 
               RichText(
                 text: TextSpan(
                   text: 'Welcome to ',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 35,
                     fontWeight: FontWeight.w300,
                     color: AppUtilits.black
                   ),
                   children: const <TextSpan>[
                     TextSpan(text: 'iYYi',
                         style: TextStyle(
-                          fontSize: 26,
+                          fontSize: 37,
                           fontWeight: FontWeight.bold,
                           color: AppUtilits.gold,
                         ),
@@ -112,7 +112,7 @@ class _FlashScreenState extends State<FlashScreen> {
               Text("Geting your current location...",
                 style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
               ),
-              SizedBox(height: 20,),
+              SizedBox(height: 30,),
               SpinKitThreeInOut(
                 color: AppUtilits.gold,
                 size: 40.0,

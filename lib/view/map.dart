@@ -48,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
      marker.add(
        Marker(
          markerId: MarkerId("50"),
-         position: LatLng(23.727106, 90.3842538),
+         position: LatLng(widget.lat, widget.long),
          icon:  BitmapDescriptor.defaultMarker,
          infoWindow: InfoWindow(
            title: "${widget.name}",

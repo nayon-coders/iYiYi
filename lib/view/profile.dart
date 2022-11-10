@@ -61,7 +61,7 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
         child:    Obx(()=>
-        controller.isLoading.value ? Column(
+        controller.isLoading.value || _isProfileUpdate? Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -167,12 +167,37 @@ class _ProfileState extends State<Profile> {
 
             SizedBox(height: 30,),
             TextButton(
-              onPressed: ()=>Get.to(Login()),
+              onPressed: (){
+                logout();
+              },
               child: Row(
                 children: [
                   Icon(Icons.logout),
                   SizedBox(width: 10,),
                   Text("Logout"),
+                ],
+              ),
+            ),
+            SizedBox(height: 30,),
+            TextButton(
+              onPressed: (){
+                Get.defaultDialog(
+                  title: "Do you want to delete your account?",
+                  content: Center(),
+                  actions: [
+                    TextButton(onPressed: (){
+                     deleteAccout();
+                    }, child: Text("Yes")),
+                    TextButton(onPressed: ()=> Navigator.pop(context), child: Text("No")),
+                  ]
+                );
+
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.delete),
+                  SizedBox(width: 10,),
+                  Text("Delete Your Account"),
                 ],
               ),
             )
@@ -279,7 +304,7 @@ class _ProfileState extends State<Profile> {
               ListTile(
                   leading: new Icon(Icons.camera_alt),
                   title: new Text('From Camera'),
-                  onTap: () =>controller.ImagePic(ImagePicker().pickImage(source: ImageSource.camera))
+                  onTap: () =>_changeProfilePic(ImageSource.camera)
               ),
 
             ],
@@ -312,6 +337,7 @@ class _ProfileState extends State<Profile> {
         ..files.add(await http.MultipartFile.fromPath(
             'image', pickPhoto.path.toString()));
       var response = await request.send();
+      print("status code === ${pickPhoto.path.toString()}");
       print("status code === ${response.statusCode}");
       print("status code === ${response.request}");
       print("status code === ${response.headers}");
@@ -323,6 +349,7 @@ class _ProfileState extends State<Profile> {
         Get.offAll(Profile());
       } else {
         print(response.statusCode);
+        print("Something went wearing. Try again.");
         AppPopUp.showTost(title: "Something went wearing. Try again.");
       }
       setState(() {
@@ -336,6 +363,19 @@ class _ProfileState extends State<Profile> {
       _isProfileUpdate = false;
     });
 
+  }
+
+  void logout() async{
+    SharedPreferences _prfs = await SharedPreferences.getInstance();
+    _prfs.remove("token");
+    Get.offAll(Login());
+  }
+
+  void deleteAccout() async{
+    SharedPreferences _prsf = await SharedPreferences.getInstance();
+    _prsf.setString("delete", "1");
+    logout();
+    AppPopUp.showTost(title: "Your account is deleted");
   }
 
 

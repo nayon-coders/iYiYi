@@ -8,6 +8,7 @@ import 'package:untitled/app_config.dart';
 import 'package:untitled/controller/location_controller.dart';
 import 'package:untitled/controller/popup_controller.dart';
 import 'package:untitled/controller/userlist_controller.dart';
+import 'package:untitled/model/ProfileModel.dart';
 import 'package:untitled/utilits.dart';
 import 'package:untitled/view/map_list.dart';
 import 'package:untitled/view/profile.dart';
@@ -24,8 +25,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
+  UserListController userListController = Get.put(UserListController());
   LocationController locationController = Get.put(LocationController());
+
+  bool _isList = false;
 
   @override
   void initState() {
@@ -39,6 +42,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(AppConfig.APP_NAME.toString(),
           style: TextStyle(
             fontWeight: FontWeight.w500,
@@ -54,31 +58,47 @@ class _HomeState extends State<Home> {
           color: AppUtilits.gold,//change color on your need
         ),
       ),
-      drawer: AppDrawer(),
+      
 
       body: Padding(
-        padding: EdgeInsets.only(top: 20, bottom: 10),
+        padding: EdgeInsets.only(top: 20, bottom: 10, left: 10, right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("List Of Users",
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w500,
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0,right: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("List Of Users",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: (){},
-                  icon: Icon(Icons.refresh),
-                )
-              ],
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: ()=>userListController.getUserList(),
+                        icon: Icon(Icons.refresh),
+                      ),
+                      IconButton(
+                        onPressed: (){
+                          setState(() {
+                            _isList = !_isList;
+                          });
+                        },
+                        icon: _isList ? Icon(Icons.list) : Icon(Icons.grading),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
             SizedBox(height: 20,),
-            Expanded(
+
+            _isList ? Expanded(
               child: GetBuilder<UserListController>(
                 init: UserListController(),
                 builder: (controller) {
@@ -105,25 +125,22 @@ class _HomeState extends State<Home> {
                         var data = controller.userListModel?.data?[index];
                         print(data);
                         return ListTile(
+                          onTap: (){
+                            print(data?.name);
+                            print(data?.image);
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context)=>SingleUser(id: "${data?.id}",
+                                )));
+                          },
                           title: Text("${data?.name}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20
                             ),
                           ),
-                          subtitle: Row(
-                            children: [
-                              Text("Online"),
-                              SizedBox(width: 5,),
-                              Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: Colors.green
-                                ),
-                              )
-                            ],
+                          subtitle: Text(
+                            "${data?.phone}",
+                            textAlign: TextAlign.start,
                           ),
                           leading: InkWell(
                               onTap: (){
@@ -143,13 +160,116 @@ class _HomeState extends State<Home> {
                                 height: 60, width: 60, fit: BoxFit.cover,),
                             ),
                           ),
-                          trailing: InkWell( 
-                              onTap: ()=>Get.to(MapScreen(lat: double.parse("${data?.location?.latitude}"), long:  double.parse("${data?.location?.longitude}"),id: "${data?.id}", name: "${data?.name}",)),
-                              child: Icon(Icons.location_on_outlined)),
+                          trailing: InkWell(
+                            onTap: ()=>Get.to(SingleUser(id: data?.id.toString())),
+                              // onTap: ()=>Get.to(MapScreen(lat: double.parse("${data?.location?.latitude}"), long:  double.parse("${data?.location?.longitude}"),id: "${data?.id}", name: "${data?.name}",)),
+                              child: Icon(Icons.arrow_forward_ios)),
                         );
                       },
                     );
                   }
+                }
+              ),
+            ) : Expanded(
+              child: GetBuilder<UserListController>(
+                init: UserListController(),
+                builder: (controller) {
+                  if(controller.isLoading.value){
+                    return  ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (_, index){
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade200,
+                          highlightColor: Colors.white,
+                          child: GridView.builder(
+                            physics: ScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 5.0,
+                              mainAxisSpacing: 5.0,
+                            ),
+                            itemCount: 10,
+                            itemBuilder: (_, index) {
+                              var data = controller.userListModel?.data?[index];
+                              return InkWell(
+                                onTap: () =>
+                                    Get.to(SingleUser(id: data?.id.toString())),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Container(color: Colors.black,)
+                                ),
+                              );
+                            },
+
+                          ),
+                        );
+                      },
+                    );
+                  }
+
+                  return GridView.builder(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 5.0,
+                      mainAxisSpacing: 5.0,
+                    ),
+                    itemCount: controller.userListModel?.data?.length,
+                    itemBuilder: (_, index) {
+                      var data = controller.userListModel?.data?[index];
+                      return InkWell(
+                        onTap: () =>
+                            Get.to(SingleUser(id: data?.id.toString())),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Stack(
+                              children: [
+
+                                ClipRRect(
+                                  child: data?.image == null
+                                      ? Image.asset("assets/images/profile.jpg")
+                                      : Image.network(
+                                    "${AppConfig.domain_name}/${data?.image}",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  child: Padding(padding: EdgeInsets.all(10),
+                                    child: Container(
+                                      child: Text("${data?.name}",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppUtilits.gold
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+
+                              ],)
+                        ),
+                      );
+                    },
+
+                  );
                 }
               ),
             ),

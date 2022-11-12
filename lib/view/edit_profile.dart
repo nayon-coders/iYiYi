@@ -151,7 +151,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                   SizedBox(height: 10,),
                   TextFormField(
-                    controller: tw,
+                    controller: inst,
                     decoration: InputDecoration(
                         hintText: "nayon.talukder.581",
                         border: OutlineInputBorder(
@@ -166,7 +166,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                   ),
                   SizedBox(height: 10,),
                   TextFormField(
-                    controller: inst,
+                    controller: tw,
                     decoration: InputDecoration(
                         hintText: "nayon_talukder5",
                         border: OutlineInputBorder(

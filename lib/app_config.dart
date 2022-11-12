@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppConfig{
 
-static const String APP_NAME = "iYYi";
+static const String APP_NAME = "iYiYi";
 
 
 
@@ -15,4 +15,7 @@ static const String SINGLE_PROFILE =  base_url+"/profile-get";
 static const String PROFILE_UPDATE = base_url+"/profile-update";
 static const String MAP_STORE = base_url+"/location-set";
 static const String UPDATE_PROFILE = base_url+"/image-update";
+static const String SEND_CODE = base_url+"/forgot-password";
+static const String CHECK_TOKEN = base_url+"/check-token";
+static const String RESET_PASS = base_url+"/reset-password";
 }

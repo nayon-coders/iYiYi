@@ -5,6 +5,7 @@ import 'package:untitled/controller/auth_controller.dart';
 import 'package:untitled/view/signup.dart';
 
 import '../utilits.dart';
+import 'forget_pass.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -108,7 +109,13 @@ class _LoginState extends State<Login> {
                     ),
                   ),
 
-
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: TextButton(
+                      onPressed: ()=>Get.to(ForgetPassword()),
+                      child: Text("Forget Password?"),
+                    ),
+                  ),
                   SizedBox(height: 20,),
                   InkWell(
                     onTap: (){

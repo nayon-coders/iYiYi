@@ -238,6 +238,7 @@ class _HomeState extends State<Home> {
                                       ? Image.asset("assets/images/profile.jpg")
                                       : Image.network(
                                     "${AppConfig.domain_name}/${data?.image}",
+                                    height: 200, width: 200,
                                     fit: BoxFit.cover,
                                   ),
                                 ),

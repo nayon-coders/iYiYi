@@ -106,14 +106,13 @@ class _SingleUserState extends State<SingleUser> {
                       ),
                     ),
                     SizedBox(height: 20,),
-                    controller.userModel?.user?.facebook != null ?buildSocialContact(
+                    controller.userModel?.user?.facebook != null ? buildSocialContact(
                       socialIcon: FontAwesomeIcons.facebook,
                       checked: Icons.check_circle,
                       title: "Facebook",
                       isCheck: controller.userModel?.user?.image != null ? true : false,
                       url: 'https://facebook.com/${controller.userModel?.user?.instagram}',
                     ):Center(),
-                    SizedBox(height: 20,),
                     controller.userModel?.user?.instagram != null ? buildSocialContact(
                       socialIcon: FontAwesomeIcons.instagram,
                       checked: Icons.check_circle,
@@ -121,7 +120,6 @@ class _SingleUserState extends State<SingleUser> {
                       isCheck: controller.userModel?.user?.instagram != null ? true : false,
                       url: 'https://instagram.com/${controller.userModel?.user?.instagram}',
                     ):Center(),
-                    SizedBox(height: 20,),
                     controller.userModel?.user?.twitter!= null ? buildSocialContact(
                       socialIcon: FontAwesomeIcons.twitter,
                       checked: Icons.check_circle,

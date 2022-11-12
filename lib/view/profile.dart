@@ -120,14 +120,14 @@ class _ProfileState extends State<Profile> {
                      SizedBox(height: 12,),
                      Text("${controller.profileModel?.user?.email}",
                        style: TextStyle(
-                         fontSize: 20,
+                         fontSize: 16,
                          fontWeight: FontWeight.w500,
                        ),
                      ),
                      SizedBox(height: 8,),
                      Text("${controller.profileModel?.user?.phone}",
                        style: TextStyle(
-                         fontSize: 20,
+                         fontSize: 17,
                          fontWeight: FontWeight.w500,
                        ),
                      ),

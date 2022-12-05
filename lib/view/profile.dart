@@ -9,6 +9,7 @@ import 'package:untitled/app_config.dart';
 import 'package:untitled/controller/popup_controller.dart';
 import 'package:untitled/controller/profile_controller.dart';
 import 'package:untitled/utilits.dart';
+import 'package:untitled/view/block_list.dart';
 import 'package:untitled/view/edit_profile.dart';
 import 'package:untitled/view/home.dart';
 import 'package:untitled/view/login.dart';
@@ -168,6 +169,18 @@ class _ProfileState extends State<Profile> {
             SizedBox(height: 30,),
             TextButton(
               onPressed: (){
+                  Get.to(BlockList());
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.group_off),
+                  SizedBox(width: 10,),
+                  Text("Block List"),
+                ],
+              ),
+            ),
+            TextButton(
+              onPressed: (){
                 logout();
               },
               child: Row(
@@ -178,7 +191,6 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-            SizedBox(height: 30,),
             TextButton(
               onPressed: (){
                 Get.defaultDialog(
@@ -377,6 +389,29 @@ class _ProfileState extends State<Profile> {
     logout();
     AppPopUp.showTost(title: "Your account is deleted");
   }
+
+
+  // block() {
+  //   showDialog<String>(
+  //     context: context,
+  //     builder: (BuildContext context) => AlertDialog(
+  //       title: const Text('Are you sure?'),
+  //       content:  Text('You want to unblock?'),
+  //       actions: <Widget>[
+  //         TextButton(
+  //           onPressed: () => Navigator.pop(context, 'Cancel'),
+  //           child: const Text('No'),
+  //         ),
+  //         TextButton(
+  //           onPressed: (){
+  //             blockController.block(controller.userModel?.user?.userId, context);
+  //           },
+  //           child: const Text('Yes'),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
 
 }

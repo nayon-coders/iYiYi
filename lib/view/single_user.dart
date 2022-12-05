@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:untitled/app_config.dart';
+import 'package:untitled/controller/block_controller.dart';
 import 'package:untitled/controller/profile_controller.dart';
 import 'package:untitled/utilits.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +21,7 @@ class SingleUser extends StatefulWidget {
 
 class _SingleUserState extends State<SingleUser> {
   SingleUserController controller = Get.put(SingleUserController());
+  BlockController blockController = Get.put(BlockController());
   @override
   void initState() {
     // TODO: implement initState
@@ -131,6 +133,29 @@ class _SingleUserState extends State<SingleUser> {
                         ? Center(
                       child: Text("Social contact not set this profile"),
                     ):Center(),
+
+                    SizedBox(height: 50,),
+                    Divider(height: 1, color: Colors.grey,),
+                    SizedBox(height: 10,),
+                     ListTile(
+                      onTap: (){
+                        block();
+                      },
+                      title: Text("Block User"),
+                      subtitle: Text("If you block this user, you can not see until you unblock."),
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
+                    SizedBox(height: 10,),
+                    Divider(height: 1, color: Colors.grey,),
+                    SizedBox(height: 10,),
+                    ListTile(
+                     onTap: ()=>reports(),
+                     title: Text("Report User"),
+                     subtitle: Text("You can report this user."),
+                     trailing: Icon(Icons.arrow_forward_ios),
+                   ),
+                    SizedBox(height: 10,),
+                    Divider(height: 1, color: Colors.grey,),
                     SizedBox(height: 50,),
                   ],
                 ),
@@ -190,5 +215,58 @@ class _SingleUserState extends State<SingleUser> {
     );
   }
 
+  block() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Are you sure?'),
+        content:  Text('You want to block?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: (){
+              blockController.block(controller.userModel?.user?.userId, context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  reports() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Report User'),
+        content: TextFormField(
+          maxLines: 3,
+          decoration: InputDecoration(
+            hintText: "Somethings...",
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: (){
+              blockController.block(controller.userModel?.user?.userId, context);
+            },
+            child: const Text('Reports & Block'),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
 
 }
+

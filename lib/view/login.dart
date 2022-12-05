@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/auth_controller.dart';
 import 'package:untitled/view/signup.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../utilits.dart';
 import 'forget_pass.dart';
@@ -19,6 +20,7 @@ class _LoginState extends State<Login> {
   AuthController authController = Get.put(AuthController());
 
 
+  bool isChecked = false;
   final _loginKey = GlobalKey<FormState>();
   late bool password;
 
@@ -116,13 +118,42 @@ class _LoginState extends State<Login> {
                       child: Text("Forget Password?"),
                     ),
                   ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              isChecked = value!;
+                            });
+                          },
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            launchUrlString("https://sites.google.com/view/iyiyiprivacypolicy/home");
+                          },
+                          child: const Text("I have agree with Trams & Conditions and Policy."),
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: 20,),
                   InkWell(
                     onTap: (){
-                      if(_loginKey.currentState!.validate()){
+                      if(_loginKey.currentState!.validate() && isChecked){
                         controller.login(email: controller.email.text, pass: controller.pass.text);
+                      }else{
+                       if(!isChecked){
+                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                           backgroundColor: Colors.red,
+                           content: Text("Agree with our Trams & Condition and Policy"),
+                           duration: Duration(milliseconds: 3000),
+                         ));
+                       }
                       }
-                    },
+                    }, 
                     child: Container(
                       margin: EdgeInsets.only(left: 60, right: 60),
                       padding: EdgeInsets.all(12),

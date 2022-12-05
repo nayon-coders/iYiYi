@@ -18,4 +18,7 @@ static const String UPDATE_PROFILE = base_url+"/image-update";
 static const String SEND_CODE = base_url+"/forgot-password";
 static const String CHECK_TOKEN = base_url+"/check-token";
 static const String RESET_PASS = base_url+"/reset-password";
+static const String BLOCK_USER = base_url+"/set-block-user";
+static const String UNBLOCK_USER = base_url+"/delete-block-user/";
+static const String BLOCK_USER_LIST = base_url+"/get-block-user";
 }

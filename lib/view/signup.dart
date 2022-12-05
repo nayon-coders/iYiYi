@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:untitled/controller/auth_controller.dart';
 import 'package:untitled/view/home.dart';
 import 'package:untitled/view/login.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../app_config.dart';
 import '../utilits.dart';
@@ -20,7 +21,7 @@ class _SignUpState extends State<SignUp> {
   final _signUpKey = GlobalKey<FormState>();
 
   late bool password;
-
+ bool isChecked = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -121,12 +122,40 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
-
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Row(
+                  children: [
+                    Checkbox(
+                      value: isChecked,
+                      onChanged: (value) {
+                        setState(() {
+                          isChecked = value!;
+                        });
+                      },
+                    ),
+                    TextButton(
+                      onPressed: (){
+                        launchUrlString("https://sites.google.com/view/iyiyiprivacypolicy/home");
+                      },
+                      child: const Text("I have agree with Trams & Conditions."),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 20,),
               InkWell(
                 onTap: (){
-                  if(_signUpKey.currentState!.validate()){
+                  if(_signUpKey.currentState!.validate() && isChecked){
                     controller.signUp();
+                  }else{
+                    if(!isChecked){
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text("Agree with our Trams & Condition and Policy"),
+                        duration: Duration(milliseconds: 3000),
+                      ));
+                    }
                   }
                 },
                 child: Container(

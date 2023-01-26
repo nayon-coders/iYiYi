@@ -6,7 +6,7 @@ static const String APP_NAME = "iYiYi";
 
 
 
-static const String domain_name = "https://iyyi.hungeat.com";
+static const String domain_name = "https://iyyi.iahhealthservice.com";
 static const String base_url = domain_name+"/api";
 static const String login = base_url+"/sign-in";
 static const String signup = base_url+"/sign-up";

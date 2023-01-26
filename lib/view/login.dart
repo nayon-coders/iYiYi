@@ -132,9 +132,9 @@ class _LoginState extends State<Login> {
                         ),
                         TextButton(
                           onPressed: (){
-                            launchUrlString("https://sites.google.com/view/iyiyiprivacypolicy/home");
+                            launchUrlString("https://sites.google.com/view/iyiyi-privacy/home");
                           },
-                          child: const Text("I have agree with Trams & Conditions and Policy."),
+                          child: SizedBox(width:270,child: const Text("I have agree with Trams & Conditions and Policy.", overflow: TextOverflow.clip,)),
                         ),
                       ],
                     ),
@@ -153,7 +153,7 @@ class _LoginState extends State<Login> {
                          ));
                        }
                       }
-                    }, 
+                    },
                     child: Container(
                       margin: EdgeInsets.only(left: 60, right: 60),
                       padding: EdgeInsets.all(12),

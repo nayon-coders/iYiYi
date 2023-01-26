@@ -71,6 +71,7 @@ class BlockController extends GetxController{
   
   
   void unblock(BuildContext context, id)async{
+    print(id);
     loading(true);
     SharedPreferences _prfs = await SharedPreferences.getInstance();
     var token = _prfs.getString("token");

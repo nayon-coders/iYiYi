@@ -122,6 +122,7 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
               ),
+              SizedBox(height: 20,),
               Align(
                 alignment: Alignment.bottomRight,
                 child: Row(
@@ -136,9 +137,9 @@ class _SignUpState extends State<SignUp> {
                     ),
                     TextButton(
                       onPressed: (){
-                        launchUrlString("https://sites.google.com/view/iyiyiprivacypolicy/home");
+                        launchUrlString("https://sites.google.com/view/iyiyi-privacy/home");
                       },
-                      child: const Text("I have agree with Trams & Conditions."),
+                      child: SizedBox(width:270,child: const Text("I have agree with Trams & Conditions and Policy.", overflow: TextOverflow.clip,)),
                     ),
                   ],
                 ),

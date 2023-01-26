@@ -36,10 +36,12 @@ class _UserMapListState extends State<UserMapList> {
   var userId, lat, long;
   getUserid()async{
     SharedPreferences _prfs = await SharedPreferences.getInstance();
-    userId = _prfs.getString("user_id");
-    lat = _prfs.getDouble("lat");
-    long = _prfs.getDouble("long");
-    print("user id is = $userId");
+    setState(() {
+      userId = _prfs.getString("user_id");
+      lat = _prfs.getDouble("lat");
+      long = _prfs.getDouble("long");
+    });
+    print("user id is = $lat");
   }
 
   @override
@@ -117,7 +119,7 @@ class _UserMapListState extends State<UserMapList> {
         mapType: MapType.normal,
         initialCameraPosition: CameraPosition(
           target: LatLng(lat!, long!),
-          zoom: 17.4746,
+          zoom: 18.4746,
         ),
 
 
@@ -129,7 +131,7 @@ class _UserMapListState extends State<UserMapList> {
         circles: {
           Circle(
             circleId: CircleId("1"),
-            radius: 150,
+            radius: 80,
             center:  LatLng(lat!, long!),
             strokeColor: Colors.red,
             strokeWidth: 2, 
@@ -140,7 +142,7 @@ class _UserMapListState extends State<UserMapList> {
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
-      ):Center(
+      ): Center(
         child: CircularProgressIndicator(),
       ),
     );

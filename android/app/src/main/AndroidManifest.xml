@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:label="iYYi"
+        android:label="iYiYi"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -36,6 +36,6 @@
             android:name="flutterEmbedding"
             android:value="2" />
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAxUQH8_NmYUWZ7e7C87snjisIxFgPXg0I"/>
+            android:value="AIzaSyCOM9j0aZl-TOLYMT0HzpMdeWkwhAkCSUY"/>
     </application>
 </manifest>

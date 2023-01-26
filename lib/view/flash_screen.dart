@@ -25,6 +25,14 @@ class _FlashScreenState extends State<FlashScreen> {
     getCurrentLocation();
   }
 
+  loginUser()async{
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    var token = _prefs.getString("token");
+    if(token != null){
+
+    }
+  }
+
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
